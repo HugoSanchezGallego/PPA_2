@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "267760234915",
+    "project_id": "ppa2-2a96e",
+    "storage_bucket": "ppa2-2a96e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267760234915:android:c2195de54f3b22eeb22a16",
+        "android_client_info": {
+          "package_name": "com.example.ppa_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_Dah4ncYrXJbUHJWGHm74uTzal9iQdaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
