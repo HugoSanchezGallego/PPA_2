@@ -24,7 +24,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventRegistrationScreen(onEventRegistered: (Event) -> Unit) {
+fun EventRegistrationScreen(language: String, onEventRegistered: (Event) -> Unit) {
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
@@ -33,21 +33,30 @@ fun EventRegistrationScreen(onEventRegistered: (Event) -> Unit) {
     var capacity by remember { mutableStateOf("") }
     val context = LocalContext.current
 
+    val title = if (language == "en") "Event Registration" else "Registro de Eventos"
+    val nameLabel = if (language == "en") "Name" else "Nombre"
+    val descriptionLabel = if (language == "en") "Description" else "Descripción"
+    val addressLabel = if (language == "en") "Address" else "Dirección"
+    val priceLabel = if (language == "en") "Price" else "Precio"
+    val dateLabel = if (language == "en") "Date (dd/MM/yyyy)" else "Fecha (dd/MM/yyyy)"
+    val capacityLabel = if (language == "en") "Capacity" else "Aforo"
+    val registerButtonText = if (language == "en") "Register Event" else "Registrar Evento"
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Registro de Eventos", color = Color.Black) },
+                title = { Text(text = title, color = Color.Black) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Cyan)
             )
         }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues).padding(16.dp)) {
-            TextField(value = name, onValueChange = { name = it }, label = { Text("Nombre") })
-            TextField(value = description, onValueChange = { description = it }, label = { Text("Descripción") })
-            TextField(value = address, onValueChange = { address = it }, label = { Text("Dirección") })
-            TextField(value = price, onValueChange = { price = it }, label = { Text("Precio") })
-            TextField(value = date, onValueChange = { date = it }, label = { Text("Fecha (dd/MM/yyyy)") })
-            TextField(value = capacity, onValueChange = { capacity = it }, label = { Text("Aforo") })
+            TextField(value = name, onValueChange = { name = it }, label = { Text(nameLabel) })
+            TextField(value = description, onValueChange = { description = it }, label = { Text(descriptionLabel) })
+            TextField(value = address, onValueChange = { address = it }, label = { Text(addressLabel) })
+            TextField(value = price, onValueChange = { price = it }, label = { Text(priceLabel) })
+            TextField(value = date, onValueChange = { date = it }, label = { Text(dateLabel) })
+            TextField(value = capacity, onValueChange = { capacity = it }, label = { Text(capacityLabel) })
             Button(onClick = {
                 try {
                     val priceValue = price.toDouble()
@@ -59,14 +68,17 @@ fun EventRegistrationScreen(onEventRegistered: (Event) -> Unit) {
                     val event = Event(name, description, address, priceValue, date, capacityValue, "")
                     onEventRegistered(event)
                 } catch (e: NumberFormatException) {
-                    Toast.makeText(context, "Por favor, introduce un precio y aforo válidos.", Toast.LENGTH_LONG).show()
+                    val errorMessage = if (language == "en") "Please enter valid price and capacity." else "Por favor, introduce un precio y aforo válidos."
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                 } catch (e: java.text.ParseException) {
-                    Toast.makeText(context, "Por favor, introduce una fecha válida en el formato dd/MM/yyyy.", Toast.LENGTH_LONG).show()
+                    val errorMessage = if (language == "en") "Please enter a valid date in the format dd/MM/yyyy." else "Por favor, introduce una fecha válida en el formato dd/MM/yyyy."
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Error al registrar el evento: ${e.message}", Toast.LENGTH_LONG).show()
+                    val errorMessage = if (language == "en") "Error registering event: ${e.message}" else "Error al registrar el evento: ${e.message}"
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                 }
             }) {
-                Text(text = "Registrar Evento")
+                Text(text = registerButtonText)
             }
         }
     }
